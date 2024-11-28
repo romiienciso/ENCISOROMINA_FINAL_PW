@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página Principal - Cálculos</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Bienvenido a la Página Principal</h1>
+        <p id="greetingMessage"></p>
+
+        <!-- Formulario para pedir el nombre del usuario -->
+        <div id="nameForm">
+            <label for="userNameInput">Por favor, ingresa tu nombre:</label>
+            <input type="text" id="userNameInput" placeholder="Tu nombre...">
+            <button onclick="setUserName()">Aceptar</button>
+        </div>
+
+        <!-- Botones de navegación -->
+        <div id="navButtons" style="display:none;">
+            <button onclick="window.location.href='pagina-api.html'">Ir a la Página de API</button>
+            <button onclick="window.location.href='otra-pagina.html'">Ir a Otra Página</button>
+        </div>
+
+        <!-- Botón para mostrar el formulario de cálculos -->
+        <div id="calcButton" style="display:none;">
+            <button onclick="showCalcForm()">Realizar Cálculos</button>
+        </div>
+
+        <!-- Formulario de cálculos (precio y cantidad) -->
+        <div id="calcForm" style="display:none;">
+            <h2>Realizar Cálculos</h2>
+            <label for="precio">Precio:</label>
+            <input type="number" id="precio" placeholder="Precio...">
+            <label for="cantidad">Cantidad:</label>
+            <input type="number" id="cantidad" placeholder="Cantidad...">
+            <button onclick="calcularPrecioTotal()">Calcular Precio Total</button>
+            <button onclick="calcularDescuento30()">Aplicar Descuento 30%</button>
+            <button onclick="calcularDescuento25()">Aplicar Descuento 25%</button>
+        </div>
+    </div>
+
+    <script>
+        // Función para almacenar y mostrar el nombre del usuario
+        function setUserName() {
+            var userName = document.getElementById('userNameInput').value;
+            if (userName) {
+                localStorage.setItem('username', userName);
+                showGreeting(userName);
+                showNavigationButtons();
+                showCalcButton(); // Muestra el botón de cálculos
+            } else {
+                alert("Por favor, ingresa tu nombre.");
+            }
+        }
+
+        // Función para mostrar el saludo personalizado
+        function showGreeting(userName) {
+            var greetingMessage = document.getElementById('greetingMessage');
+            greetingMessage.textContent = `Hola, ${userName}! Bienvenido a la página principal.`;
+            document.getElementById('nameForm').style.display = 'none';  // Oculta el formulario
+        }
+
+        // Función para mostrar los botones de navegación
+        function showNavigationButtons() {
+            document.getElementById('navButtons').style.display = 'block';  // Muestra los botones
+        }
+
+        // Función para mostrar el botón de cálculos
+        function showCalcButton() {
+            document.getElementById('calcButton').style.display = 'block';  // Muestra el botón para mostrar el formulario de cálculos
+        }
+
+        // Mostrar el formulario de cálculos
+        function showCalcForm() {
+            document.getElementById('calcForm').style.display = 'block'; // Muestra el formulario de cálculos
+        }
+
+        // Función para calcular el precio total
+        function calcularPrecioTotal() {
+            const precio = parseFloat(document.getElementById("precio").value);
+            const cantidad = parseFloat(document.getElementById("cantidad").value);
+
+            if (isNaN(precio) || isNaN(cantidad) || precio <= 0 || cantidad <= 0) {
+                alert("Por favor, ingrese valores válidos para el precio y la cantidad.");
+                return;
+            }
+
+            const precioTotal = precio * cantidad;
+            alert(`El precio total es: $${precioTotal.toFixed(2)}`);
+        }
+
+        // Función para calcular el 30% de descuento sobre el precio total
+        function calcularDescuento30() {
+            const precio = parseFloat(document.getElementById("precio").value);
+            const cantidad = parseFloat(document.getElementById("cantidad").value);
+
+            if (isNaN(precio) || isNaN(cantidad) || precio <= 0 || cantidad <= 0) {
+                alert("Por favor, ingrese valores válidos para el precio y la cantidad.");
+                return;
+            }
+
+            const precioTotal = precio * cantidad;
+            const descuento = precioTotal * 0.30;
+            const precioConDescuento = precioTotal - descuento;
+
+            alert(`El precio con un descuento del 30% es: $${precioConDescuento.toFixed(2)}`);
+        }
+
+        // Función para calcular el 25% de descuento sobre el precio por cantidad
+        function calcularDescuento25() {
+            const precio = parseFloat(document.getElementById("precio").value);
+            const cantidad = parseFloat(document.getElementById("cantidad").value);
+
+            if (isNaN(precio) || isNaN(cantidad) || precio <= 0 || cantidad <= 0) {
+                alert("Por favor, ingrese valores válidos para el precio y la cantidad.");
+                return;
+            }
+
+            const precioTotal = precio * cantidad;
+            const descuento = precioTotal * 0.25;
+            const precioConDescuento = precioTotal - descuento;
+
+            alert(`El precio con un descuento del 25% es: $${precioConDescuento.toFixed(2)}`);
+        }
+
+        // Mostrar el nombre del usuario al cargar la página si ya se ha guardado
+        window.onload = function() {
+            var storedUserName = localStorage.getItem('username');
+            if (storedUserName) {
+                showGreeting(storedUserName);
+                showNavigationButtons();
+                showCalcButton();
+            }
+        }
+    </script>
+</body>
+</html>
